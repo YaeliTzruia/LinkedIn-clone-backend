@@ -24,10 +24,11 @@ const getById = async (req, res) => {
 };
 const getUser = async (req, res) => {
   try {
-    console.log(req.user._id, "req");
+    console.log(req.user, "req");
     const id = req.user._id;
     const user = req.user.toProfileJSON();
     const signedInUser = { ...user, id };
+    console.log(signedInUser, "signedInUser");
     res.send({ status: "success", signedInUser });
   } catch (error) {
     res.status(400).send(ErrorHandler.badRequest());
@@ -36,14 +37,4 @@ const getUser = async (req, res) => {
   }
 };
 
-const logout = async (req, res) => {
-  try {
-    res.clearCookie("JWT");
-    res.json({ status: "success", message: "Logged out" });
-  } catch (error) {
-    res.status(400).send(ErrorHandler.badRequest());
-    console.log(error);
-  }
-};
-
-module.exports = { updateUser, getById, getUser, logout };
+module.exports = { updateUser, getById, getUser };

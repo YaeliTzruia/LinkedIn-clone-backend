@@ -5,7 +5,6 @@ const authService = require("../services/auth");
 const cookieSettings = require("../DTO/auth/cookie");
 
 const register = async (req, res, next) => {
-  console.log("res-", res.clearCookie, "-res");
   res.clearCookie("JWT");
   const addUser = { ...req.body };
   const hashed = authService.generateHash(addUser.password);
@@ -20,7 +19,7 @@ const register = async (req, res, next) => {
     // res.send("user");
   } catch (err) {
     console.log(err);
-    res.status(409).send(ErrorHandler.userAlreadyExists());
+    res.status(409).send(err._message);
   }
 };
 
@@ -40,5 +39,14 @@ const login = async (req, res, next) => {
     res.status(404).send(ErrorHandler.EmailNotFound());
   }
 };
+const logout = async (req, res) => {
+  try {
+    res.clearCookie("JWT");
+    res.json({ status: "success", message: "Logged out" });
+  } catch (error) {
+    res.status(400).send(ErrorHandler.badRequest());
+    console.log(error);
+  }
+};
 
-module.exports = { register, login };
+module.exports = { register, login, logout };

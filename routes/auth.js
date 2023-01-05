@@ -8,5 +8,6 @@ const validate = require("../DTO/validator");
 
 route.post("/signup", validate(signupSchema), authController.register);
 route.post("/signin", validate(signinSchema), authController.login);
+route.get("/logout", authController.logout);
 
 module.exports = route;
