@@ -24,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //routes
 const AuthRoutes = require("./routes/auth");
 const UserRoutes = require("./routes/users");
+const PostRoutes = require("./routes/posts");
 
 const storage = multer.diskStorage({
   //cb = callback
@@ -50,6 +51,7 @@ app.post("/uploads", upload.single("image"), (req, res) => {
 app.use("/uploads", express.static(`${__dirname}/uploads`));
 app.use("/auth", AuthRoutes);
 app.use("/user", UserRoutes);
+app.use("/posts", PostRoutes);
 
 mongoose.set("strictQuery", true);
 
@@ -64,7 +66,3 @@ mongoose
     });
   })
   .catch((err) => console.log(err, "mongo error"));
-
-// app.listen(PORT, () => {
-//         console.log(`our server is running on port: ${PORT}`);
-//       });
